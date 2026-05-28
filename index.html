@@ -297,6 +297,116 @@ h2.sec{font-family:var(--disp);font-weight:800;font-size:clamp(2rem,5vw,3.4rem);
 footer{text-align:center;font-family:var(--mono);font-size:.72rem;color:var(--dim);
   padding:30px 20px;border-top:1px solid var(--line);position:relative;z-index:2}
 footer b{color:var(--cyan)}
+
+/* ---------- profile photo ---------- */
+.about-grid.with-photo{grid-template-columns:1.3fr .9fr;gap:48px}
+.about-right{display:flex;flex-direction:column;gap:24px}
+.photo-frame{position:relative;width:100%;max-width:300px;aspect-ratio:1/1.08;
+  border-radius:22px;overflow:hidden;margin:0 auto;
+  border:1px solid var(--line);background:var(--surface);
+  transition:.5s cubic-bezier(.16,1,.3,1)}
+.photo-frame::before{content:'';position:absolute;inset:0;z-index:3;pointer-events:none;
+  border-radius:22px;box-shadow:inset 0 0 0 1px rgba(40,224,212,.25)}
+.photo-frame::after{content:'';position:absolute;top:-50%;left:-50%;width:200%;height:200%;z-index:0;
+  background:conic-gradient(from 0deg,transparent,var(--glow-cyan),transparent 25%,transparent,var(--glow-amber),transparent 55%);
+  animation:spin 10s linear infinite;opacity:0;transition:.5s}
+.photo-frame:hover{transform:translateY(-6px) rotate(-1deg);border-color:var(--cyan);
+  box-shadow:0 24px 60px -22px var(--glow-cyan)}
+.photo-frame:hover::after{opacity:.9}
+.photo-frame img{position:relative;z-index:2;width:100%;height:100%;object-fit:cover;
+  display:block;border-radius:21px;filter:grayscale(.15) contrast(1.02)}
+.photo-frame .corner{position:absolute;z-index:4;width:16px;height:16px;border:1.5px solid var(--cyan);
+  opacity:.7;transition:.4s}
+.photo-frame .c1{top:11px;left:11px;border-right:none;border-bottom:none}
+.photo-frame .c2{top:11px;right:11px;border-left:none;border-bottom:none}
+.photo-frame .c3{bottom:11px;left:11px;border-right:none;border-top:none}
+.photo-frame .c4{bottom:11px;right:11px;border-left:none;border-top:none}
+.photo-frame:hover .corner{width:26px;height:26px;border-color:var(--amber)}
+.photo-cap{position:absolute;z-index:4;bottom:12px;left:12px;right:12px;
+  font-family:var(--mono);font-size:.64rem;letter-spacing:1px;color:var(--text);
+  background:rgba(7,10,16,.65);backdrop-filter:blur(6px);border:1px solid var(--line);
+  border-radius:8px;padding:7px 11px;display:flex;align-items:center;gap:8px}
+.photo-cap .live{width:7px;height:7px;border-radius:50%;background:var(--cyan);
+  box-shadow:0 0 10px var(--cyan);animation:pulse 2s infinite}
+@media(max-width:880px){.about-grid.with-photo{grid-template-columns:1fr}
+  .photo-frame{max-width:260px}}
+
+/* ---------- projects ---------- */
+.proj{position:relative;background:linear-gradient(155deg,var(--surface2),var(--surface));
+  border:1px solid var(--line);border-radius:24px;padding:clamp(26px,3.5vw,46px);
+  margin-top:48px;overflow:hidden;transition:.45s cubic-bezier(.16,1,.3,1)}
+.proj::after{content:'';position:absolute;inset:0;border-radius:24px;pointer-events:none;
+  background:radial-gradient(620px circle at var(--cx,80%) var(--cy,0),var(--glow-cyan),transparent 45%);
+  opacity:0;transition:.4s}
+.proj:hover{border-color:var(--cyan)}
+.proj:hover::after{opacity:.5}
+.proj-grid{display:grid;grid-template-columns:1.05fr 1fr;gap:46px;align-items:center;position:relative;z-index:2}
+@media(max-width:920px){.proj-grid{grid-template-columns:1fr;gap:34px}}
+.proj-head{display:flex;align-items:center;gap:14px;flex-wrap:wrap;margin-bottom:8px}
+.proj-head .ttl{font-family:var(--disp);font-weight:800;font-size:clamp(1.6rem,3.5vw,2.3rem);
+  letter-spacing:-1px}
+.proj-head .live-badge{font-family:var(--mono);font-size:.62rem;letter-spacing:1px;
+  color:#04211f;background:var(--cyan);padding:4px 10px;border-radius:20px;
+  display:flex;align-items:center;gap:6px}
+.proj-head .live-badge .d{width:6px;height:6px;border-radius:50%;background:#04211f;animation:pulse 1.6s infinite}
+.proj-desc{color:var(--muted);max-width:480px;margin-bottom:24px}
+.feat-list{display:flex;flex-direction:column;gap:12px;margin-bottom:26px}
+.feat{position:relative;background:var(--bg);border:1px solid var(--line);border-radius:14px;
+  padding:16px 18px;display:flex;gap:15px;align-items:flex-start;overflow:hidden;
+  transition:.4s cubic-bezier(.16,1,.3,1);cursor:default}
+.feat::before{content:'';position:absolute;left:0;top:0;bottom:0;width:3px;background:var(--cyan);
+  transform:scaleY(0);transform-origin:center;transition:.4s}
+.feat:hover{transform:translateX(8px);border-color:var(--cyan);background:var(--surface)}
+.feat:hover::before{transform:scaleY(1)}
+.feat .fi{flex-shrink:0;width:40px;height:40px;border-radius:11px;display:grid;place-items:center;
+  font-family:var(--disp);font-weight:800;font-size:1.15rem;
+  background:linear-gradient(135deg,var(--cyan-d),var(--cyan));color:#04211f;transition:.4s}
+.feat:nth-child(2) .fi{background:linear-gradient(135deg,var(--amber-d),var(--amber));color:#2a1700}
+.feat:hover .fi{transform:rotate(-8deg) scale(1.08)}
+.feat .ft{font-family:var(--disp);font-weight:700;font-size:1rem;letter-spacing:-.2px}
+.feat .fd{color:var(--muted);font-size:.84rem;margin-top:2px}
+.proj-tech{display:flex;flex-wrap:wrap;gap:7px;margin-bottom:24px}
+.proj-tech .t{font-family:var(--mono);font-size:.68rem;color:var(--muted);
+  border:1px solid var(--line);border-radius:6px;padding:4px 9px}
+.proj-actions{display:flex;flex-wrap:wrap;gap:12px}
+
+/* browser mockup */
+.mock{background:var(--bg);border:1px solid var(--line);border-radius:16px;overflow:hidden;
+  box-shadow:0 30px 70px -30px rgba(0,0,0,.7);transition:.5s cubic-bezier(.16,1,.3,1)}
+.proj:hover .mock{transform:translateY(-6px)}
+.mock .bar{display:flex;align-items:center;gap:7px;padding:11px 14px;background:var(--surface);
+  border-bottom:1px solid var(--line)}
+.mock .bar i{width:11px;height:11px;border-radius:50%;background:var(--dim);display:inline-block}
+.mock .bar i:nth-child(1){background:#ff5f57}.mock .bar i:nth-child(2){background:#febc2e}.mock .bar i:nth-child(3){background:#28c840}
+.mock .url{margin-left:10px;font-family:var(--mono);font-size:.62rem;color:var(--dim);
+  background:var(--bg);border:1px solid var(--line);border-radius:6px;padding:4px 10px;flex:1;
+  white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.mock .screen{padding:20px}
+.mock .mtitle{font-family:var(--disp);font-weight:800;font-size:1.1rem;margin-bottom:4px}
+.mock .msub{font-family:var(--mono);font-size:.62rem;color:var(--muted);margin-bottom:16px}
+.mock .ring-wrap{display:flex;align-items:center;gap:18px;margin-bottom:18px}
+.mock .ring{position:relative;width:78px;height:78px;flex-shrink:0}
+.mock .ring svg{transform:rotate(-90deg)}
+.mock .ring .pct{position:absolute;inset:0;display:grid;place-items:center;
+  font-family:var(--disp);font-weight:800;font-size:1.1rem;color:var(--cyan)}
+.mock .legend{display:flex;flex-direction:column;gap:8px;flex:1}
+.mock .lrow{display:flex;justify-content:space-between;align-items:center;font-family:var(--mono);font-size:.66rem}
+.mock .lrow .lname{display:flex;align-items:center;gap:7px;color:var(--muted)}
+.mock .lrow .ld{width:8px;height:8px;border-radius:2px}
+.mock .lrow b{color:var(--text)}
+.mock .qrow{display:flex;align-items:center;gap:10px;padding:9px 11px;border-radius:9px;
+  background:var(--surface);border:1px solid var(--line);margin-bottom:7px;
+  font-family:var(--mono);font-size:.64rem;transition:.3s}
+.mock .qrow:hover{border-color:var(--cyan);transform:translateX(4px)}
+.mock .qrow .check{width:15px;height:15px;border-radius:4px;border:1.5px solid var(--cyan);
+  display:grid;place-items:center;color:var(--cyan);font-size:.58rem;flex-shrink:0}
+.mock .qrow.done .check{background:var(--cyan);color:#04211f}
+.mock .qrow .qn{color:var(--text);flex:1;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.mock .qrow .note{color:var(--amber);font-size:.58rem;border:1px solid var(--line);border-radius:5px;padding:2px 6px}
+.mock .qrow .diff{font-size:.56rem;padding:2px 6px;border-radius:5px}
+.mock .qrow .easy{color:#28c840;background:rgba(40,200,64,.12)}
+.mock .qrow .med{color:var(--amber);background:rgba(255,180,67,.12)}
+.mock .qrow .hard{color:#ff5f57;background:rgba(255,95,87,.12)}
 </style>
 </head>
 <body>
@@ -310,6 +420,7 @@ footer b{color:var(--cyan)}
   <div class="navlinks">
     <a href="#journey">journey</a>
     <a href="#experience">experience</a>
+    <a href="#projects">projects</a>
     <a href="#dsa">dsa</a>
     <a href="#skills">skills</a>
     <a href="#contact">contact</a>
@@ -329,7 +440,7 @@ footer b{color:var(--cyan)}
   <div class="hero-stats">
     <div class="stat">
       <div class="big">1932</div><div class="lbl">LeetCode Rating</div>
-      <div class="reveal-txt">Knight tier · Top 3% globally</div>
+      <div class="reveal-txt">Knight tier · top 3% globally</div>
     </div>
     <div class="stat amber">
       <div class="big">1200+</div><div class="lbl">Problems Solved</div>
@@ -358,18 +469,26 @@ footer b{color:var(--cyan)}
 <!-- ABOUT -->
 <section class="about" id="about">
   <div class="eyebrow reveal">01 — About</div>
-  <div class="about-grid">
+  <div class="about-grid with-photo">
     <div class="reveal">
       <p>I’m a backend-focused software engineer who enjoys the hard parts of <b>distributed systems</b> — event-driven pipelines, concurrency, observability, and making services that don’t fall over under load.</p>
       <p style="margin-top:18px">At Blue Yonder I work on <b>enterprise-scale data platform services</b>: Kafka frameworks, production-grade APIs, monitoring dashboards, and zero-downtime Kubernetes deployments. Outside of work, I’m a competitive problem-solver — <b>LeetCode Knight</b> with 1200+ problems solved.</p>
     </div>
-    <div class="quick reveal">
-      <div class="row"><span class="k">location</span><span class="v">Bangalore, IN</span></div>
-      <div class="row"><span class="k">role</span><span class="v hi">Associate SWE</span></div>
-      <div class="row"><span class="k">company</span><span class="v">Blue Yonder</span></div>
-      <div class="row"><span class="k">focus</span><span class="v">Distributed Systems</span></div>
-      <div class="row"><span class="k">education</span><span class="v">NIT Tiruchirappalli</span></div>
-      <div class="row"><span class="k">status</span><span class="v hi">● open to connect</span></div>
+    <div class="about-right">
+      <div class="photo-frame reveal">
+        <img src="avatar.svg" alt="Deepak Kushwah">
+        <span class="corner c1"></span><span class="corner c2"></span>
+        <span class="corner c3"></span><span class="corner c4"></span>
+        <div class="photo-cap"><span class="live"></span>Bangalore · Building backend systems</div>
+      </div>
+      <div class="quick reveal">
+        <div class="row"><span class="k">location</span><span class="v">Bangalore, IN</span></div>
+        <div class="row"><span class="k">role</span><span class="v hi">Associate SWE</span></div>
+        <div class="row"><span class="k">company</span><span class="v">Blue Yonder</span></div>
+        <div class="row"><span class="k">focus</span><span class="v">Distributed Systems</span></div>
+        <div class="row"><span class="k">education</span><span class="v">NIT Tiruchirappalli</span></div>
+        <div class="row"><span class="k">status</span><span class="v hi">● open to connect</span></div>
+      </div>
     </div>
   </div>
 </section>
@@ -468,9 +587,82 @@ footer b{color:var(--cyan)}
   </div>
 </section>
 
+<!-- PROJECTS -->
+<section id="projects">
+  <div class="eyebrow reveal">04 — Projects</div>
+  <h2 class="sec reveal">Things I’ve built.</h2>
+  <div class="proj reveal" id="projCard">
+    <div class="proj-grid">
+      <div>
+        <div class="proj-head">
+          <span class="ttl">DSA Progress Tracker</span>
+          <span class="live-badge"><span class="d"></span>LIVE</span>
+        </div>
+        <p class="proj-desc">A personal web app to track my SDE preparation — log every solved problem by difficulty, keep daily streaks, and attach detailed notes to each question. Built to make consistent, organised practice effortless.</p>
+
+        <div class="feat-list">
+          <div class="feat">
+            <div class="fi">G</div>
+            <div><div class="ft">Google Authentication</div>
+              <div class="fd">Sign in securely with Google — progress is tied to your account and synced, not just one device.</div></div>
+          </div>
+          <div class="feat">
+            <div class="fi">↗</div>
+            <div><div class="ft">Track Your Progress</div>
+              <div class="fd">Mark questions solved across Easy / Medium / Hard, see completion %, daily count, and date-wise history.</div></div>
+          </div>
+          <div class="feat">
+            <div class="fi">✎</div>
+            <div><div class="ft">Notes for Every Question</div>
+              <div class="fd">Attach approach, edge cases & intuition to each problem — your own revision sheet for SDE interviews.</div></div>
+          </div>
+        </div>
+
+        <div class="proj-tech">
+          <span class="t">JavaScript</span><span class="t">HTML</span><span class="t">CSS</span>
+          <span class="t">Google OAuth</span><span class="t">Local Storage</span><span class="t">GitHub Pages</span>
+        </div>
+
+        <div class="proj-actions">
+          <a class="btn" href="https://benz038.github.io/dsa-progress-tracker/" target="_blank" rel="noopener">Live Demo <span class="ico">↗</span></a>
+          <a class="btn ghost" href="https://github.com/benz038/dsa-progress-tracker" target="_blank" rel="noopener">Source Code <span class="ico">↗</span></a>
+        </div>
+      </div>
+
+      <!-- browser mockup -->
+      <div class="mock reveal">
+        <div class="bar"><i></i><i></i><i></i>
+          <span class="url">benz038.github.io/dsa-progress-tracker</span></div>
+        <div class="screen">
+          <div class="mtitle">DSA Progress Tracker</div>
+          <div class="msub">signed in · saved automatically</div>
+          <div class="ring-wrap">
+            <div class="ring">
+              <svg width="78" height="78" viewBox="0 0 78 78">
+                <circle cx="39" cy="39" r="32" fill="none" stroke="#1f2a3d" stroke-width="8"/>
+                <circle cx="39" cy="39" r="32" fill="none" stroke="#28e0d4" stroke-width="8"
+                  stroke-linecap="round" stroke-dasharray="201" stroke-dashoffset="60"/>
+              </svg>
+              <div class="pct">70%</div>
+            </div>
+            <div class="legend">
+              <div class="lrow"><span class="lname"><span class="ld" style="background:#28c840"></span>Easy</span><b>42 / 50</b></div>
+              <div class="lrow"><span class="lname"><span class="ld" style="background:#ffb443"></span>Medium</span><b>68 / 95</b></div>
+              <div class="lrow"><span class="lname"><span class="ld" style="background:#ff5f57"></span>Hard</span><b>24 / 40</b></div>
+            </div>
+          </div>
+          <div class="qrow done"><span class="check">✓</span><span class="qn">Two Sum</span><span class="note">notes</span><span class="diff easy">Easy</span></div>
+          <div class="qrow done"><span class="check">✓</span><span class="qn">LRU Cache</span><span class="note">notes</span><span class="diff med">Med</span></div>
+          <div class="qrow"><span class="check"></span><span class="qn">Median of Two Sorted Arrays</span><span class="diff hard">Hard</span></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
 <!-- DSA -->
 <section class="dsa" id="dsa">
-  <div class="eyebrow reveal">04 — Competitive Programming</div>
+  <div class="eyebrow reveal">05 — Competitive Programming</div>
   <h2 class="sec reveal">Algorithms, at scale.</h2>
   <div class="dsa-wrap">
     <div class="rank-card reveal">
@@ -501,7 +693,7 @@ footer b{color:var(--cyan)}
 
 <!-- SKILLS -->
 <section id="skills">
-  <div class="eyebrow reveal">05 — Tech Stack</div>
+  <div class="eyebrow reveal">06 — Tech Stack</div>
   <h2 class="sec reveal">Tools of the trade.</h2>
   <div class="skill-cols">
     <div class="skill-cat reveal">
@@ -533,7 +725,7 @@ footer b{color:var(--cyan)}
 
 <!-- ACHIEVEMENTS -->
 <section id="achievements">
-  <div class="eyebrow reveal">06 — Achievements</div>
+  <div class="eyebrow reveal">07 — Achievements</div>
   <h2 class="sec reveal">Wins worth noting.</h2>
   <div class="ach-grid">
     <div class="ach reveal">
@@ -561,7 +753,7 @@ footer b{color:var(--cyan)}
 
 <!-- CONTACT -->
 <section class="contact" id="contact">
-  <div class="eyebrow reveal" style="justify-content:center">07 — Get in touch</div>
+  <div class="eyebrow reveal" style="justify-content:center">08 — Get in touch</div>
   <h2 class="reveal">Let’s build<br><span class="em">something reliable.</span></h2>
   <div class="links reveal">
     <a class="clink" href="mailto:deepakkushwah.nitt@gmail.com"><span class="d"></span>deepakkushwah.nitt@gmail.com</a>
@@ -585,7 +777,7 @@ addEventListener('pointermove',e=>{
 });
 
 /* ---- experience glow follow ---- */
-document.querySelectorAll('.xp').forEach(c=>{
+document.querySelectorAll('.xp,.proj').forEach(c=>{
   c.addEventListener('pointermove',e=>{
     const r=c.getBoundingClientRect();
     c.style.setProperty('--cx',(e.clientX-r.left)+'px');
