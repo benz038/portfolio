@@ -1,0 +1,698 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Deepak Kushwah — Backend & Distributed Systems Engineer</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Syne:wght@600;700;800&family=Sora:wght@200;300;400;500&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet">
+<style>
+:root{
+  --bg:#070a10;
+  --bg2:#0b0f17;
+  --surface:#0f1521;
+  --surface2:#141c2b;
+  --line:#1f2a3d;
+  --text:#e7eef7;
+  --muted:#8a98ad;
+  --dim:#5a6678;
+  --cyan:#28e0d4;
+  --cyan-d:#0fb9ae;
+  --amber:#ffb443;
+  --amber-d:#e8941f;
+  --glow-cyan:rgba(40,224,212,.35);
+  --glow-amber:rgba(255,180,67,.30);
+  --mono:'JetBrains Mono',monospace;
+  --disp:'Syne',sans-serif;
+  --body:'Sora',sans-serif;
+}
+*{margin:0;padding:0;box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{
+  background:var(--bg);
+  color:var(--text);
+  font-family:var(--body);
+  font-weight:300;
+  line-height:1.6;
+  overflow-x:hidden;
+  -webkit-font-smoothing:antialiased;
+}
+::selection{background:var(--cyan);color:#04211f}
+a{color:inherit;text-decoration:none}
+
+/* ---------- atmospheric layers ---------- */
+#net{position:fixed;inset:0;z-index:0;opacity:.55}
+.grain{position:fixed;inset:0;z-index:1;pointer-events:none;opacity:.04;
+  background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='120' height='120'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.9' numOctaves='3'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");}
+.spotlight{position:fixed;inset:0;z-index:1;pointer-events:none;
+  background:radial-gradient(420px circle at var(--mx,50%) var(--my,30%),rgba(40,224,212,.07),transparent 70%);
+  transition:background .15s ease}
+.vignette{position:fixed;inset:0;z-index:1;pointer-events:none;
+  background:radial-gradient(120% 90% at 50% 0%,transparent 55%,rgba(0,0,0,.55) 100%)}
+
+/* ---------- nav ---------- */
+nav{position:fixed;top:0;left:0;right:0;z-index:40;
+  display:flex;align-items:center;justify-content:space-between;
+  padding:18px clamp(20px,5vw,70px);
+  backdrop-filter:blur(10px);
+  border-bottom:1px solid transparent;transition:.4s}
+nav.scrolled{background:rgba(7,10,16,.7);border-bottom:1px solid var(--line)}
+.logo{font-family:var(--disp);font-weight:800;font-size:1.25rem;letter-spacing:-.5px;
+  display:flex;align-items:center;gap:10px}
+.logo .dot{width:9px;height:9px;border-radius:50%;background:var(--cyan);
+  box-shadow:0 0 12px var(--cyan);animation:pulse 2s infinite}
+@keyframes pulse{0%,100%{opacity:1;transform:scale(1)}50%{opacity:.4;transform:scale(.7)}}
+.navlinks{display:flex;gap:30px;font-family:var(--mono);font-size:.78rem;letter-spacing:.5px}
+.navlinks a{color:var(--muted);position:relative;transition:.25s}
+.navlinks a::after{content:'';position:absolute;left:0;bottom:-5px;width:0;height:1px;
+  background:var(--cyan);transition:.3s}
+.navlinks a:hover{color:var(--text)}
+.navlinks a:hover::after{width:100%}
+.navlinks a::before{content:'';color:var(--cyan)}
+@media(max-width:780px){.navlinks{display:none}}
+
+/* ---------- shared ---------- */
+section{position:relative;z-index:2;padding:clamp(70px,11vh,130px) clamp(20px,6vw,90px)}
+.eyebrow{font-family:var(--mono);font-size:.78rem;letter-spacing:3px;text-transform:uppercase;
+  color:var(--cyan);display:flex;align-items:center;gap:12px;margin-bottom:22px}
+.eyebrow::before{content:'';width:34px;height:1px;background:var(--cyan);display:inline-block}
+h2.sec{font-family:var(--disp);font-weight:800;font-size:clamp(2rem,5vw,3.4rem);
+  letter-spacing:-1.5px;line-height:1.04;margin-bottom:14px}
+.reveal{opacity:0;transform:translateY(34px);transition:.8s cubic-bezier(.16,1,.3,1)}
+.reveal.in{opacity:1;transform:none}
+
+/* ---------- hero ---------- */
+.hero{min-height:100vh;display:flex;flex-direction:column;justify-content:center;
+  padding-top:120px;position:relative;z-index:2}
+.hero .terminal{font-family:var(--mono);font-size:.82rem;color:var(--cyan);
+  margin-bottom:26px;display:flex;align-items:center;gap:8px;opacity:0;animation:fadeUp .7s .2s forwards}
+.hero .terminal .br{color:var(--dim)}
+.cursor{display:inline-block;width:9px;height:1.05em;background:var(--cyan);
+  margin-left:2px;transform:translateY(2px);animation:blink 1s steps(1) infinite}
+@keyframes blink{50%{opacity:0}}
+.hero h1{font-family:var(--disp);font-weight:800;font-size:clamp(2.8rem,9.5vw,7.2rem);
+  letter-spacing:-3px;line-height:.92;margin-bottom:8px}
+.hero h1 .l1{display:block;opacity:0;animation:fadeUp .8s .35s forwards}
+.hero h1 .l2{display:block;color:transparent;-webkit-text-stroke:1.4px var(--muted);
+  opacity:0;animation:fadeUp .8s .5s forwards}
+.hero .role{font-family:var(--mono);font-size:clamp(.95rem,2.4vw,1.4rem);color:var(--text);
+  margin-top:26px;min-height:1.6em;opacity:0;animation:fadeUp .8s .65s forwards}
+.hero .role .typed{color:var(--amber);font-weight:500}
+.hero .blurb{max-width:600px;color:var(--muted);font-size:1.02rem;margin-top:22px;
+  opacity:0;animation:fadeUp .8s .8s forwards}
+@keyframes fadeUp{from{opacity:0;transform:translateY(26px)}to{opacity:1;transform:none}}
+
+.hero-stats{display:flex;flex-wrap:wrap;gap:14px;margin-top:42px;
+  opacity:0;animation:fadeUp .8s .95s forwards}
+.stat{position:relative;background:var(--surface);border:1px solid var(--line);
+  border-radius:14px;padding:18px 22px;min-width:130px;overflow:hidden;
+  transition:.35s cubic-bezier(.16,1,.3,1);cursor:default}
+.stat .big{font-family:var(--disp);font-weight:800;font-size:1.7rem;letter-spacing:-1px}
+.stat .lbl{font-family:var(--mono);font-size:.68rem;color:var(--muted);
+  letter-spacing:1px;text-transform:uppercase;margin-top:3px}
+.stat .reveal-txt{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;
+  text-align:center;padding:12px;font-size:.74rem;color:var(--text);
+  background:linear-gradient(135deg,var(--cyan-d),var(--cyan));color:#04211f;font-weight:500;
+  opacity:0;transform:translateY(101%);transition:.4s cubic-bezier(.16,1,.3,1);font-family:var(--mono)}
+.stat:hover{transform:translateY(-6px);border-color:var(--cyan);
+  box-shadow:0 14px 40px -12px var(--glow-cyan)}
+.stat:hover .reveal-txt{opacity:1;transform:translateY(0)}
+.stat.amber:hover{border-color:var(--amber);box-shadow:0 14px 40px -12px var(--glow-amber)}
+.stat.amber .reveal-txt{background:linear-gradient(135deg,var(--amber-d),var(--amber));color:#2a1700}
+
+.scroll-hint{position:absolute;bottom:30px;left:50%;transform:translateX(-50%);
+  font-family:var(--mono);font-size:.66rem;letter-spacing:2px;color:var(--dim);
+  display:flex;flex-direction:column;align-items:center;gap:8px;opacity:0;animation:fadeUp 1s 1.3s forwards}
+.scroll-hint .bar{width:1px;height:34px;background:linear-gradient(var(--cyan),transparent);
+  animation:scrolly 1.8s infinite}
+@keyframes scrolly{0%{transform:scaleY(0);transform-origin:top}50%{transform:scaleY(1);transform-origin:top}51%{transform-origin:bottom}100%{transform:scaleY(0);transform-origin:bottom}}
+
+/* ---------- marquee ---------- */
+.marquee{position:relative;z-index:2;border-top:1px solid var(--line);border-bottom:1px solid var(--line);
+  background:var(--bg2);padding:18px 0;overflow:hidden;white-space:nowrap;
+  -webkit-mask-image:linear-gradient(90deg,transparent,#000 12%,#000 88%,transparent)}
+.marquee .track{display:inline-flex;gap:50px;animation:scroll-x 26s linear infinite;
+  font-family:var(--disp);font-weight:700;font-size:1.3rem;letter-spacing:-.5px}
+.marquee .track span{color:var(--dim);display:inline-flex;align-items:center;gap:50px}
+.marquee .track span b{color:var(--cyan);font-weight:700}
+.marquee .track .s{color:var(--amber);font-weight:400}
+@keyframes scroll-x{to{transform:translateX(-50%)}}
+
+/* ---------- about ---------- */
+.about-grid{display:grid;grid-template-columns:1.4fr 1fr;gap:60px;align-items:start}
+@media(max-width:880px){.about-grid{grid-template-columns:1fr;gap:36px}}
+.about p{font-size:1.12rem;color:var(--muted);max-width:640px}
+.about p b{color:var(--text);font-weight:500}
+.about .quick{background:var(--surface);border:1px solid var(--line);border-radius:18px;padding:28px;
+  font-family:var(--mono);font-size:.84rem}
+.about .quick .row{display:flex;justify-content:space-between;padding:11px 0;border-bottom:1px dashed var(--line)}
+.about .quick .row:last-child{border:none}
+.about .quick .k{color:var(--dim)}
+.about .quick .v{color:var(--text);text-align:right}
+.about .quick .v.hi{color:var(--cyan)}
+
+/* ---------- journey timeline ---------- */
+.timeline{position:relative;margin-top:50px;padding-left:6px}
+.timeline::before{content:'';position:absolute;left:13px;top:6px;bottom:6px;width:2px;
+  background:linear-gradient(var(--cyan),var(--amber))}
+.tnode{position:relative;padding:0 0 14px 56px;margin-bottom:14px}
+.tnode .dot{position:absolute;left:5px;top:6px;width:18px;height:18px;border-radius:50%;
+  background:var(--bg);border:2px solid var(--cyan);z-index:3;transition:.35s}
+.tnode .dot::after{content:'';position:absolute;inset:3px;border-radius:50%;background:var(--cyan);
+  transform:scale(0);transition:.35s}
+.tnode:hover .dot{border-color:var(--amber);box-shadow:0 0 0 6px var(--glow-amber)}
+.tnode:hover .dot::after{transform:scale(1);background:var(--amber)}
+.tcard{background:var(--surface);border:1px solid var(--line);border-radius:16px;
+  padding:20px 24px;transition:.4s cubic-bezier(.16,1,.3,1);cursor:default;position:relative;overflow:hidden}
+.tcard::before{content:'';position:absolute;left:0;top:0;bottom:0;width:3px;background:var(--cyan);
+  transform:scaleY(0);transform-origin:top;transition:.4s}
+.tnode:hover .tcard{transform:translateX(8px);border-color:var(--cyan);
+  box-shadow:0 16px 44px -18px var(--glow-cyan)}
+.tnode:hover .tcard::before{transform:scaleY(1)}
+.tcard .yr{font-family:var(--mono);font-size:.72rem;color:var(--amber);letter-spacing:1.5px}
+.tcard h3{font-family:var(--disp);font-weight:700;font-size:1.32rem;letter-spacing:-.5px;margin:5px 0 3px}
+.tcard .sub{color:var(--muted);font-size:.92rem}
+.tcard .more{max-height:0;opacity:0;overflow:hidden;transition:.5s cubic-bezier(.16,1,.3,1);
+  color:var(--muted);font-size:.9rem;margin-top:0}
+.tnode:hover .tcard .more{max-height:160px;opacity:1;margin-top:12px}
+.tcard .tag{display:inline-block;font-family:var(--mono);font-size:.66rem;color:var(--cyan);
+  border:1px solid var(--line);border-radius:20px;padding:3px 10px;margin:4px 5px 0 0}
+
+/* ---------- experience ---------- */
+.xp-grid{display:grid;gap:24px;margin-top:46px}
+.xp{position:relative;background:var(--surface);border:1px solid var(--line);border-radius:20px;
+  padding:30px clamp(24px,3vw,40px);overflow:hidden;transition:.45s cubic-bezier(.16,1,.3,1)}
+.xp::after{content:'';position:absolute;inset:0;border-radius:20px;pointer-events:none;
+  background:radial-gradient(500px circle at var(--cx,0) var(--cy,0),var(--glow-cyan),transparent 45%);
+  opacity:0;transition:.4s}
+.xp:hover{border-color:var(--cyan);transform:translateY(-4px)}
+.xp:hover::after{opacity:.6}
+.xp .head{display:flex;justify-content:space-between;align-items:flex-start;flex-wrap:wrap;gap:10px}
+.xp .co{font-family:var(--disp);font-weight:700;font-size:1.5rem;letter-spacing:-.5px}
+.xp .co .badge{font-family:var(--mono);font-size:.6rem;background:var(--cyan);color:#04211f;
+  padding:2px 8px;border-radius:20px;vertical-align:middle;margin-left:10px;letter-spacing:1px}
+.xp .pos{color:var(--amber);font-family:var(--mono);font-size:.86rem;margin-top:4px}
+.xp .period{font-family:var(--mono);font-size:.78rem;color:var(--dim);white-space:nowrap}
+.xp .hint{font-family:var(--mono);font-size:.68rem;color:var(--cyan);margin-top:16px;
+  display:flex;align-items:center;gap:8px;transition:.3s}
+.xp .hint .arrow{transition:.4s}
+.xp:hover .hint{opacity:.4}
+.xp .bullets{max-height:0;opacity:0;overflow:hidden;transition:.6s cubic-bezier(.16,1,.3,1)}
+.xp:hover .bullets{max-height:640px;opacity:1;margin-top:18px}
+.xp .bullets li{list-style:none;position:relative;padding-left:26px;margin-bottom:12px;
+  color:var(--muted);font-size:.96rem}
+.xp .bullets li::before{content:'▸';position:absolute;left:0;top:0;color:var(--cyan)}
+.xp .bullets li b{color:var(--text);font-weight:500}
+.xp .bullets li .m{color:var(--amber);font-weight:500;font-family:var(--mono);font-size:.85em}
+.xp .stack{display:flex;flex-wrap:wrap;gap:7px;margin-top:18px}
+.xp .stack .t{font-family:var(--mono);font-size:.68rem;color:var(--muted);
+  border:1px solid var(--line);border-radius:6px;padding:4px 9px;transition:.25s}
+.xp:hover .stack .t{border-color:rgba(40,224,212,.4);color:var(--text)}
+
+/* ---------- dsa feature ---------- */
+.dsa{position:relative;z-index:2}
+.dsa-wrap{display:grid;grid-template-columns:1fr 1.1fr;gap:54px;align-items:center;margin-top:50px}
+@media(max-width:920px){.dsa-wrap{grid-template-columns:1fr;gap:40px}}
+.rank-card{position:relative;background:linear-gradient(150deg,var(--surface2),var(--surface));
+  border:1px solid var(--line);border-radius:24px;padding:42px;text-align:center;overflow:hidden}
+.rank-card::before{content:'';position:absolute;top:-40%;left:-40%;width:180%;height:180%;
+  background:conic-gradient(from 0deg,transparent,var(--glow-cyan),transparent 30%);
+  animation:spin 8s linear infinite}
+.rank-card::after{content:'';position:absolute;inset:1px;border-radius:23px;background:var(--surface)}
+@keyframes spin{to{transform:rotate(360deg)}}
+.rank-card>*{position:relative;z-index:2}
+.rank-badge{font-family:var(--mono);font-size:.72rem;letter-spacing:3px;color:var(--amber);
+  text-transform:uppercase}
+.rank-num{font-family:var(--disp);font-weight:800;font-size:5rem;letter-spacing:-3px;line-height:1;
+  margin:10px 0;background:linear-gradient(120deg,var(--cyan),var(--amber));
+  -webkit-background-clip:text;background-clip:text;color:transparent}
+.rank-tier{font-family:var(--disp);font-weight:700;font-size:1.4rem;letter-spacing:1px}
+.rank-tier .knight{color:var(--cyan)}
+.rank-sub{color:var(--muted);font-size:.86rem;margin-top:6px;font-family:var(--mono)}
+.rank-meter{height:8px;background:var(--bg);border-radius:20px;margin:26px 0 8px;overflow:hidden;
+  border:1px solid var(--line)}
+.rank-meter .fill{height:100%;width:0;border-radius:20px;
+  background:linear-gradient(90deg,var(--cyan),var(--amber));transition:width 1.6s cubic-bezier(.16,1,.3,1)}
+.rank-scale{display:flex;justify-content:space-between;font-family:var(--mono);font-size:.62rem;color:var(--dim)}
+
+.dsa-side h3{font-family:var(--disp);font-weight:800;font-size:clamp(1.6rem,4vw,2.4rem);
+  letter-spacing:-1px;line-height:1.1;margin-bottom:16px}
+.dsa-side p{color:var(--muted);margin-bottom:26px;max-width:480px}
+.dsa-mini{display:grid;grid-template-columns:1fr 1fr;gap:14px;margin-bottom:28px}
+.dsa-mini .m{background:var(--surface);border:1px solid var(--line);border-radius:14px;padding:18px;
+  transition:.35s}
+.dsa-mini .m:hover{border-color:var(--amber);transform:translateY(-4px)}
+.dsa-mini .m .n{font-family:var(--disp);font-weight:800;font-size:1.7rem;color:var(--amber)}
+.dsa-mini .m .t{font-family:var(--mono);font-size:.68rem;color:var(--muted);letter-spacing:.5px;margin-top:2px}
+.btn{display:inline-flex;align-items:center;gap:12px;font-family:var(--mono);font-size:.84rem;
+  background:var(--cyan);color:#04211f;font-weight:700;padding:15px 26px;border-radius:12px;
+  transition:.35s cubic-bezier(.16,1,.3,1);letter-spacing:.5px;position:relative;overflow:hidden}
+.btn .ico{transition:.4s}
+.btn:hover{box-shadow:0 14px 40px -10px var(--glow-cyan);transform:translateY(-3px)}
+.btn:hover .ico{transform:translate(4px,-4px)}
+.btn.ghost{background:transparent;border:1px solid var(--line);color:var(--text)}
+.btn.ghost:hover{border-color:var(--cyan);box-shadow:none}
+
+/* ---------- skills ---------- */
+.skill-cols{display:grid;grid-template-columns:repeat(auto-fit,minmax(250px,1fr));gap:22px;margin-top:46px}
+.skill-cat{background:var(--surface);border:1px solid var(--line);border-radius:18px;padding:26px;
+  transition:.4s}
+.skill-cat:hover{border-color:var(--line);transform:translateY(-4px)}
+.skill-cat .ct{font-family:var(--mono);font-size:.74rem;letter-spacing:1.5px;text-transform:uppercase;
+  color:var(--cyan);margin-bottom:18px;display:flex;align-items:center;gap:9px}
+.skill-cat .ct .sq{width:7px;height:7px;background:var(--cyan);transform:rotate(45deg)}
+.chips{display:flex;flex-wrap:wrap;gap:9px}
+.chip{font-family:var(--mono);font-size:.78rem;color:var(--muted);background:var(--bg);
+  border:1px solid var(--line);border-radius:8px;padding:7px 13px;cursor:default;
+  transition:.28s cubic-bezier(.16,1,.3,1)}
+.chip:hover{color:#04211f;background:var(--cyan);border-color:var(--cyan);transform:translateY(-3px) scale(1.05);
+  box-shadow:0 8px 22px -8px var(--glow-cyan)}
+
+/* ---------- achievements ---------- */
+.ach-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:18px;margin-top:46px}
+.ach{position:relative;background:var(--surface);border:1px solid var(--line);border-radius:16px;
+  padding:26px;overflow:hidden;transition:.4s cubic-bezier(.16,1,.3,1)}
+.ach .ic{font-family:var(--disp);font-weight:800;font-size:1.5rem;color:var(--amber);margin-bottom:12px}
+.ach h4{font-family:var(--disp);font-weight:700;font-size:1.12rem;letter-spacing:-.3px;margin-bottom:6px}
+.ach p{color:var(--muted);font-size:.88rem}
+.ach::before{content:'';position:absolute;bottom:-50%;right:-50%;width:120%;height:120%;
+  background:radial-gradient(circle,var(--glow-amber),transparent 60%);opacity:0;transition:.45s}
+.ach:hover{transform:translateY(-6px);border-color:var(--amber)}
+.ach:hover::before{opacity:1}
+
+/* ---------- contact ---------- */
+.contact{text-align:center;padding-bottom:60px}
+.contact h2{font-family:var(--disp);font-weight:800;font-size:clamp(2.4rem,8vw,5.5rem);
+  letter-spacing:-2px;line-height:1;margin-bottom:24px}
+.contact .em{background:linear-gradient(120deg,var(--cyan),var(--amber));
+  -webkit-background-clip:text;background-clip:text;color:transparent}
+.contact .links{display:flex;flex-wrap:wrap;justify-content:center;gap:14px;margin-top:36px}
+.clink{font-family:var(--mono);font-size:.84rem;color:var(--muted);border:1px solid var(--line);
+  border-radius:12px;padding:14px 22px;transition:.35s cubic-bezier(.16,1,.3,1);
+  display:flex;align-items:center;gap:9px}
+.clink:hover{color:var(--text);border-color:var(--cyan);transform:translateY(-3px);
+  box-shadow:0 12px 30px -12px var(--glow-cyan)}
+.clink .d{width:6px;height:6px;border-radius:50%;background:var(--cyan)}
+footer{text-align:center;font-family:var(--mono);font-size:.72rem;color:var(--dim);
+  padding:30px 20px;border-top:1px solid var(--line);position:relative;z-index:2}
+footer b{color:var(--cyan)}
+</style>
+</head>
+<body>
+<canvas id="net"></canvas>
+<div class="grain"></div>
+<div class="spotlight"></div>
+<div class="vignette"></div>
+
+<nav id="nav">
+  <div class="logo"><span class="dot"></span>DK<span style="color:var(--dim);font-weight:400;font-family:var(--mono);font-size:.7rem;margin-left:2px">_kushwah</span></div>
+  <div class="navlinks">
+    <a href="#journey">journey</a>
+    <a href="#experience">experience</a>
+    <a href="#dsa">dsa</a>
+    <a href="#skills">skills</a>
+    <a href="#contact">contact</a>
+  </div>
+</nav>
+
+<!-- HERO -->
+<section class="hero" id="top">
+  <div class="terminal"><span class="br">~/</span>deepak <span class="br">$</span> whoami<span class="cursor"></span></div>
+  <h1>
+    <span class="l1">DEEPAK</span>
+    <span class="l2">KUSHWAH</span>
+  </h1>
+  <div class="role">Engineer building&nbsp;<span class="typed"></span></div>
+  <p class="blurb">Software Engineer with ~2 years building scalable backend infrastructure and distributed systems with Java, Spring Boot, Apache Kafka & Kubernetes at Blue Yonder. I care about reliability, performance, and clean system design.</p>
+
+  <div class="hero-stats">
+    <div class="stat">
+      <div class="big">1861</div><div class="lbl">LeetCode Rating</div>
+      <div class="reveal-txt">Knight tier · Top 5% globally</div>
+    </div>
+    <div class="stat amber">
+      <div class="big">1200+</div><div class="lbl">Problems Solved</div>
+      <div class="reveal-txt">Across LeetCode & GeeksforGeeks</div>
+    </div>
+    <div class="stat">
+      <div class="big">~2 yrs</div><div class="lbl">Experience</div>
+      <div class="reveal-txt">Backend & distributed systems @ Blue Yonder</div>
+    </div>
+    <div class="stat amber">
+      <div class="big">AIR 103</div><div class="lbl">NIMCET 2021</div>
+      <div class="reveal-txt">National MCA entrance · All India Rank</div>
+    </div>
+  </div>
+
+  <div class="scroll-hint"><span>SCROLL</span><span class="bar"></span></div>
+</section>
+
+<!-- MARQUEE -->
+<div class="marquee">
+  <div class="track" id="mq">
+    <span><b>JAVA</b><span class="s">/</span>SPRING BOOT<span class="s">/</span><b>APACHE KAFKA</b><span class="s">/</span>KUBERNETES<span class="s">/</span><b>MICROSERVICES</b><span class="s">/</span>EVENT-DRIVEN<span class="s">/</span><b>ELASTICSEARCH</b><span class="s">/</span>SYSTEM DESIGN<span class="s">/</span><b>DOCKER</b><span class="s">/</span>CONCURRENCY<span class="s">/</span></span>
+  </div>
+</div>
+
+<!-- ABOUT -->
+<section class="about" id="about">
+  <div class="eyebrow reveal">01 — About</div>
+  <div class="about-grid">
+    <div class="reveal">
+      <p>I’m a backend-focused software engineer who enjoys the hard parts of <b>distributed systems</b> — event-driven pipelines, concurrency, observability, and making services that don’t fall over under load.</p>
+      <p style="margin-top:18px">At Blue Yonder I work on <b>enterprise-scale data platform services</b>: Kafka frameworks, production-grade APIs, monitoring dashboards, and zero-downtime Kubernetes deployments. Outside of work, I’m a competitive problem-solver — <b>LeetCode Knight</b> with 1200+ problems solved.</p>
+    </div>
+    <div class="quick reveal">
+      <div class="row"><span class="k">location</span><span class="v">Bangalore, IN</span></div>
+      <div class="row"><span class="k">role</span><span class="v hi">Associate SWE</span></div>
+      <div class="row"><span class="k">company</span><span class="v">Blue Yonder</span></div>
+      <div class="row"><span class="k">focus</span><span class="v">Distributed Systems</span></div>
+      <div class="row"><span class="k">education</span><span class="v">NIT Tiruchirappalli</span></div>
+      <div class="row"><span class="k">status</span><span class="v hi">● open to connect</span></div>
+    </div>
+  </div>
+</section>
+
+<!-- JOURNEY -->
+<section id="journey">
+  <div class="eyebrow reveal">02 — College & Career Journey</div>
+  <h2 class="sec reveal">From a national rank<br>to production systems.</h2>
+  <div class="timeline">
+    <div class="tnode reveal">
+      <span class="dot"></span>
+      <div class="tcard">
+        <div class="yr">2021</div>
+        <h3>NIMCET 2021 — All India Rank 103</h3>
+        <div class="sub">National-level MCA entrance examination</div>
+        <div class="more">Cracked one of India’s most competitive MCA entrance exams, securing AIR 103 and a seat at a top NIT — the launchpad for everything that followed.</div>
+      </div>
+    </div>
+    <div class="tnode reveal">
+      <span class="dot"></span>
+      <div class="tcard">
+        <div class="yr">JUL 2021 — MAY 2024</div>
+        <h3>Master of Computer Applications (MCA)</h3>
+        <div class="sub">National Institute of Technology, Tiruchirappalli</div>
+        <div class="more">Built a strong foundation in data structures &amp; algorithms, operating systems, DBMS, OOP and system design — while grinding competitive programming on the side.
+          <div><span class="tag">DSA</span><span class="tag">Operating Systems</span><span class="tag">DBMS</span><span class="tag">System Design</span></div>
+        </div>
+      </div>
+    </div>
+    <div class="tnode reveal">
+      <span class="dot"></span>
+      <div class="tcard">
+        <div class="yr">JAN 2024 — JUN 2024</div>
+        <h3>Associate Software Engineer Intern</h3>
+        <div class="sub">Blue Yonder · Data Platform Team</div>
+        <div class="more">Joined the Data Platform team building backend infrastructure for enterprise-scale ingestion, validation &amp; curation pipelines handling large datasets — shipping REST APIs and tests in Java &amp; Spring Boot.</div>
+      </div>
+    </div>
+    <div class="tnode reveal">
+      <span class="dot"></span>
+      <div class="tcard">
+        <div class="yr">JUL 2024 — PRESENT</div>
+        <h3>Associate Software Engineer</h3>
+        <div class="sub">Blue Yonder · Bangalore</div>
+        <div class="more">Converted to full-time. Now building reusable event-driven Kafka frameworks, scalable APIs, observability dashboards and supporting zero-downtime Kubernetes deployments for production-critical services.</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- EXPERIENCE -->
+<section id="experience">
+  <div class="eyebrow reveal">03 — Experience <span style="color:var(--dim);margin-left:6px">(hover to expand)</span></div>
+  <h2 class="sec reveal">What I’ve shipped.</h2>
+  <div class="xp-grid">
+    <div class="xp reveal">
+      <div class="head">
+        <div>
+          <div class="co">Blue Yonder <span class="badge">CURRENT</span></div>
+          <div class="pos">Associate Software Engineer</div>
+        </div>
+        <div class="period">JUL 2024 — PRESENT · Bangalore</div>
+      </div>
+      <div class="hint"><span class="arrow">↓</span> hover to reveal achievements</div>
+      <ul class="bullets">
+        <li>Built a reusable <b>event-driven distributed framework</b> with Apache Kafka, adopted across 3+ backend services — cut production failure-detection time from <span class="m">30 min → 2 min</span>.</li>
+        <li>Designed &amp; developed <b>8+ scalable sync/async REST APIs</b> in Java &amp; Spring Boot for enterprise-scale data workflows.</li>
+        <li>Architected centralized <b>observability dashboards</b> with Elasticsearch &amp; Kibana — reduced incident diagnosis time by <span class="m">70%</span>.</li>
+        <li>Supported <b>20+ zero-downtime Kubernetes deployments</b> using phased rollouts, canary deployments &amp; rollback validation.</li>
+        <li>Debugged &amp; resolved <b>8+ production performance bottlenecks</b> across latency, throughput &amp; concurrency — reduced incident rates by <span class="m">30%</span>.</li>
+        <li>Drove design reviews, code reviews &amp; production support to raise software quality and operational reliability.</li>
+      </ul>
+      <div class="stack">
+        <span class="t">Java</span><span class="t">Spring Boot</span><span class="t">Apache Kafka</span><span class="t">Elasticsearch</span><span class="t">Kibana</span><span class="t">Snowflake</span><span class="t">JMeter</span><span class="t">Gradle</span><span class="t">Docker</span><span class="t">Kubernetes</span>
+      </div>
+    </div>
+
+    <div class="xp reveal">
+      <div class="head">
+        <div>
+          <div class="co">Blue Yonder</div>
+          <div class="pos">Associate Software Engineer — Intern</div>
+        </div>
+        <div class="period">JAN 2024 — JUN 2024 · Bangalore</div>
+      </div>
+      <div class="hint"><span class="arrow">↓</span> hover to reveal achievements</div>
+      <ul class="bullets">
+        <li>Contributed to the <b>Data Platform team</b>, building backend infrastructure for enterprise-scale data ingestion, validation &amp; curation pipelines handling large datasets.</li>
+        <li>Developed &amp; enhanced <b>RESTful APIs and backend services</b> in Java &amp; Spring Boot to automate data workflows and improve operational efficiency.</li>
+        <li>Wrote <b>unit &amp; functional tests</b> to improve backend reliability, maintainability and production readiness.</li>
+      </ul>
+      <div class="stack">
+        <span class="t">Java</span><span class="t">Spring Boot</span><span class="t">Snowflake</span><span class="t">Elasticsearch</span><span class="t">Kibana</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- DSA -->
+<section class="dsa" id="dsa">
+  <div class="eyebrow reveal">04 — Competitive Programming</div>
+  <h2 class="sec reveal">Algorithms, at scale.</h2>
+  <div class="dsa-wrap">
+    <div class="rank-card reveal">
+      <div class="rank-badge">★ LeetCode Knight</div>
+      <div class="rank-num">1861</div>
+      <div class="rank-tier"><span class="knight">KNIGHT</span> · Max Rating</div>
+      <div class="rank-sub">Top 5% globally · @benzz</div>
+      <div class="rank-meter"><div class="fill" id="meterFill"></div></div>
+      <div class="rank-scale"><span>1400 Pupil</span><span>1850 Knight</span><span>2200 Guardian</span></div>
+    </div>
+    <div class="dsa-side reveal">
+      <h3>1200+ problems, and a tracker I built to log every one.</h3>
+      <p>I keep my problem-solving sharp across LeetCode &amp; GeeksforGeeks — and built my own DSA Progress Tracker to log solved questions by difficulty, see daily streaks, and keep everything saved automatically.</p>
+      <div class="dsa-mini">
+        <div class="m"><div class="n">1200+</div><div class="t">PROBLEMS SOLVED</div></div>
+        <div class="m"><div class="n">Knight</div><div class="t">LEETCODE TIER</div></div>
+        <div class="m"><div class="n">Top 5%</div><div class="t">GLOBAL RANK</div></div>
+        <div class="m"><div class="n">2</div><div class="t">PLATFORMS</div></div>
+      </div>
+      <div style="display:flex;flex-wrap:wrap;gap:12px">
+        <a class="btn" href="https://benz038.github.io/dsa-progress-tracker/" target="_blank" rel="noopener">Open DSA Tracker <span class="ico">↗</span></a>
+        <a class="btn ghost" href="https://leetcode.com/u/benzz/" target="_blank" rel="noopener">LeetCode <span class="ico">↗</span></a>
+        <a class="btn ghost" href="https://www.geeksforgeeks.org/user/leods073/" target="_blank" rel="noopener">GeeksforGeeks <span class="ico">↗</span></a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- SKILLS -->
+<section id="skills">
+  <div class="eyebrow reveal">05 — Tech Stack</div>
+  <h2 class="sec reveal">Tools of the trade.</h2>
+  <div class="skill-cols">
+    <div class="skill-cat reveal">
+      <div class="ct"><span class="sq"></span>Languages</div>
+      <div class="chips"><span class="chip">Java</span><span class="chip">C++</span><span class="chip">Python</span><span class="chip">SQL</span><span class="chip">JavaScript</span></div>
+    </div>
+    <div class="skill-cat reveal">
+      <div class="ct"><span class="sq"></span>Backend &amp; Distributed</div>
+      <div class="chips"><span class="chip">Spring Boot</span><span class="chip">REST APIs</span><span class="chip">Microservices</span><span class="chip">Apache Kafka</span><span class="chip">Event-Driven</span><span class="chip">Concurrency</span></div>
+    </div>
+    <div class="skill-cat reveal">
+      <div class="ct"><span class="sq"></span>Cloud &amp; Infra</div>
+      <div class="chips"><span class="chip">Docker</span><span class="chip">Kubernetes</span><span class="chip">Azure</span><span class="chip">GitHub Actions</span></div>
+    </div>
+    <div class="skill-cat reveal">
+      <div class="ct"><span class="sq"></span>Data &amp; Observability</div>
+      <div class="chips"><span class="chip">Snowflake</span><span class="chip">PostgreSQL</span><span class="chip">MySQL</span><span class="chip">Elasticsearch</span><span class="chip">Kibana</span></div>
+    </div>
+    <div class="skill-cat reveal">
+      <div class="ct"><span class="sq"></span>Testing &amp; Performance</div>
+      <div class="chips"><span class="chip">JUnit</span><span class="chip">Mockito</span><span class="chip">JMeter</span></div>
+    </div>
+    <div class="skill-cat reveal">
+      <div class="ct"><span class="sq"></span>Core Concepts</div>
+      <div class="chips"><span class="chip">DSA</span><span class="chip">OOP</span><span class="chip">Multithreading</span><span class="chip">Operating Systems</span><span class="chip">DBMS</span><span class="chip">System Design</span><span class="chip">Low-Level Design</span></div>
+    </div>
+  </div>
+</section>
+
+<!-- ACHIEVEMENTS -->
+<section id="achievements">
+  <div class="eyebrow reveal">06 — Achievements</div>
+  <h2 class="sec reveal">Wins worth noting.</h2>
+  <div class="ach-grid">
+    <div class="ach reveal">
+      <div class="ic">♞</div>
+      <h4>LeetCode Knight</h4>
+      <p>Max rating 1861 — Top 5% globally. 1200+ problems solved across LeetCode &amp; GeeksforGeeks.</p>
+    </div>
+    <div class="ach reveal">
+      <div class="ic">★</div>
+      <h4>“You’re a GEM” Award</h4>
+      <p>Recognized at Blue Yonder for outstanding contributions and impact on team deliverables.</p>
+    </div>
+    <div class="ach reveal">
+      <div class="ic">#103</div>
+      <h4>NIMCET 2021</h4>
+      <p>All India Rank 103 in the national-level MCA entrance examination.</p>
+    </div>
+    <div class="ach reveal">
+      <div class="ic">⚡</div>
+      <h4>Flipkart GRID 5.0</h4>
+      <p>Qualified Level 1.1 of Flipkart’s national engineering hackathon.</p>
+    </div>
+  </div>
+</section>
+
+<!-- CONTACT -->
+<section class="contact" id="contact">
+  <div class="eyebrow reveal" style="justify-content:center">07 — Get in touch</div>
+  <h2 class="reveal">Let’s build<br><span class="em">something reliable.</span></h2>
+  <div class="links reveal">
+    <a class="clink" href="mailto:deepakkushwah.nitt@gmail.com"><span class="d"></span>deepakkushwah.nitt@gmail.com</a>
+    <a class="clink" href="tel:+919630808573"><span class="d"></span>+91 96308 08573</a>
+    <a class="clink" href="https://linkedin.com/in/benz038" target="_blank" rel="noopener"><span class="d"></span>LinkedIn</a>
+    <a class="clink" href="https://github.com/benz038" target="_blank" rel="noopener"><span class="d"></span>GitHub</a>
+  </div>
+</section>
+
+<footer>Designed &amp; built for <b>Deepak Kushwah</b> · Backend &amp; Distributed Systems Engineer · 2026</footer>
+
+<script>
+/* ---- nav scroll ---- */
+const nav=document.getElementById('nav');
+addEventListener('scroll',()=>nav.classList.toggle('scrolled',scrollY>40));
+
+/* ---- spotlight ---- */
+addEventListener('pointermove',e=>{
+  document.documentElement.style.setProperty('--mx',e.clientX+'px');
+  document.documentElement.style.setProperty('--my',e.clientY+'px');
+});
+
+/* ---- experience glow follow ---- */
+document.querySelectorAll('.xp').forEach(c=>{
+  c.addEventListener('pointermove',e=>{
+    const r=c.getBoundingClientRect();
+    c.style.setProperty('--cx',(e.clientX-r.left)+'px');
+    c.style.setProperty('--cy',(e.clientY-r.top)+'px');
+  });
+});
+
+/* ---- typed role ---- */
+const phrases=['distributed systems.','event-driven pipelines.','Kafka frameworks.','reliable backend APIs.','observable infrastructure.'];
+const typedEl=document.querySelector('.typed');
+let pi=0,ci=0,del=false;
+function type(){
+  const p=phrases[pi];
+  typedEl.textContent=p.slice(0,ci);
+  if(!del){
+    if(ci<p.length){ci++;setTimeout(type,55);}
+    else{del=true;setTimeout(type,1500);}
+  }else{
+    if(ci>0){ci--;setTimeout(type,28);}
+    else{del=false;pi=(pi+1)%phrases.length;setTimeout(type,300);}
+  }
+}
+type();
+
+/* ---- marquee duplicate for seamless loop ---- */
+const mq=document.getElementById('mq');
+mq.innerHTML+=mq.innerHTML;
+
+/* ---- reveal on scroll ---- */
+const io=new IntersectionObserver((es)=>{
+  es.forEach(e=>{if(e.isIntersecting){e.target.classList.add('in');io.unobserve(e.target);}});
+},{threshold:.12});
+document.querySelectorAll('.reveal').forEach((el,i)=>{
+  el.style.transitionDelay=(i%6*60)+'ms';
+  io.observe(el);
+});
+
+/* ---- rank meter fill (1400..2200 scale, value 1861) ---- */
+const meterIO=new IntersectionObserver((es)=>{
+  es.forEach(e=>{if(e.isIntersecting){
+    const pct=Math.min(100,((1861-1400)/(2200-1400))*100);
+    document.getElementById('meterFill').style.width=pct+'%';
+    meterIO.disconnect();
+  }});
+},{threshold:.4});
+meterIO.observe(document.getElementById('meterFill'));
+
+/* ---- network background (distributed nodes + event packets) ---- */
+const cv=document.getElementById('net'),x=cv.getContext('2d');
+let W,H,nodes=[],packets=[];
+const COUNT=()=>Math.min(64,Math.floor(innerWidth/26));
+function resize(){W=cv.width=innerWidth;H=cv.height=innerHeight;init();}
+function init(){
+  nodes=[];const n=COUNT();
+  for(let i=0;i<n;i++){
+    nodes.push({x:Math.random()*W,y:Math.random()*H,
+      vx:(Math.random()-.5)*.22,vy:(Math.random()-.5)*.22,r:Math.random()*1.6+.8});
+  }
+  packets=[];
+}
+const DIST=140;
+function frame(){
+  x.clearRect(0,0,W,H);
+  // move nodes
+  for(const a of nodes){
+    a.x+=a.vx;a.y+=a.vy;
+    if(a.x<0||a.x>W)a.vx*=-1;
+    if(a.y<0||a.y>H)a.vy*=-1;
+  }
+  // edges
+  for(let i=0;i<nodes.length;i++){
+    for(let j=i+1;j<nodes.length;j++){
+      const a=nodes[i],b=nodes[j];
+      const dx=a.x-b.x,dy=a.y-b.y,d=Math.hypot(dx,dy);
+      if(d<DIST){
+        const o=(1-d/DIST)*.5;
+        x.strokeStyle='rgba(40,224,212,'+o*.5+')';
+        x.lineWidth=.6;
+        x.beginPath();x.moveTo(a.x,a.y);x.lineTo(b.x,b.y);x.stroke();
+        // occasionally spawn a packet on a close edge
+        if(d<DIST*.7 && Math.random()<.0011 && packets.length<26){
+          packets.push({a,b,t:0,sp:.012+Math.random()*.02});
+        }
+      }
+    }
+  }
+  // nodes
+  for(const a of nodes){
+    x.fillStyle='rgba(40,224,212,.55)';
+    x.beginPath();x.arc(a.x,a.y,a.r,0,7);x.fill();
+  }
+  // packets travelling along edges (event-driven feel)
+  for(let i=packets.length-1;i>=0;i--){
+    const p=packets[i];p.t+=p.sp;
+    if(p.t>=1){packets.splice(i,1);continue;}
+    const px=p.a.x+(p.b.x-p.a.x)*p.t;
+    const py=p.a.y+(p.b.y-p.a.y)*p.t;
+    const g=x.createRadialGradient(px,py,0,px,py,6);
+    g.addColorStop(0,'rgba(255,180,67,.95)');
+    g.addColorStop(1,'rgba(255,180,67,0)');
+    x.fillStyle=g;x.beginPath();x.arc(px,py,6,0,7);x.fill();
+    x.fillStyle='#ffd9a0';x.beginPath();x.arc(px,py,1.6,0,7);x.fill();
+  }
+  requestAnimationFrame(frame);
+}
+addEventListener('resize',resize);
+resize();frame();
+</script>
+</body>
+</html>
