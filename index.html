@@ -475,9 +475,9 @@ footer b{color:var(--cyan)}
   <div class="dsa-wrap">
     <div class="rank-card reveal">
       <div class="rank-badge">★ LeetCode Knight</div>
-      <div class="rank-num">1861</div>
+      <div class="rank-num">1932</div>
       <div class="rank-tier"><span class="knight">KNIGHT</span> · Max Rating</div>
-      <div class="rank-sub">Top 5% globally · @benzz</div>
+      <div class="rank-sub">top 3% globally · @benzz</div>
       <div class="rank-meter"><div class="fill" id="meterFill"></div></div>
       <div class="rank-scale"><span>1400 Pupil</span><span>1850 Knight</span><span>2200 Guardian</span></div>
     </div>
@@ -487,7 +487,7 @@ footer b{color:var(--cyan)}
       <div class="dsa-mini">
         <div class="m"><div class="n">1200+</div><div class="t">PROBLEMS SOLVED</div></div>
         <div class="m"><div class="n">Knight</div><div class="t">LEETCODE TIER</div></div>
-        <div class="m"><div class="n">Top 5%</div><div class="t">GLOBAL RANK</div></div>
+        <div class="m"><div class="n">top 3%</div><div class="t">GLOBAL RANK</div></div>
         <div class="m"><div class="n">2</div><div class="t">PLATFORMS</div></div>
       </div>
       <div style="display:flex;flex-wrap:wrap;gap:12px">
@@ -539,7 +539,7 @@ footer b{color:var(--cyan)}
     <div class="ach reveal">
       <div class="ic">♞</div>
       <h4>LeetCode Knight</h4>
-      <p>Max rating 1861 — Top 5% globally. 1200+ problems solved across LeetCode &amp; GeeksforGeeks.</p>
+      <p>Max rating 1932 — top 3% globally. 1200+ problems solved across LeetCode &amp; GeeksforGeeks.</p>
     </div>
     <div class="ach reveal">
       <div class="ic">★</div>
@@ -623,10 +623,10 @@ document.querySelectorAll('.reveal').forEach((el,i)=>{
   io.observe(el);
 });
 
-/* ---- rank meter fill (1400..2200 scale, value 1861) ---- */
+/* ---- rank meter fill (1400..2200 scale, value 1932) ---- */
 const meterIO=new IntersectionObserver((es)=>{
   es.forEach(e=>{if(e.isIntersecting){
-    const pct=Math.min(100,((1861-1400)/(2200-1400))*100);
+    const pct=Math.min(100,((1932-1400)/(2200-1400))*100);
     document.getElementById('meterFill').style.width=pct+'%';
     meterIO.disconnect();
   }});
